@@ -1,6 +1,32 @@
+server:
+  port: ${SERVER_PORT:8080}
+
 spring:
   application:
-    name: stocksync
+    name: stock-sync-service
+  datasource:
+    url: jdbc:h2:mem:stocks;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+
+stock-sync:
+  initial-delay-ms: ${STOCK_SYNC_INITIAL_DELAY_MS:5000}
+  fixed-delay-ms: ${STOCK_SYNC_FIXED_DELAY_MS:60000}
+
+vendors:
+  vendor-a:
+    base-url: ${VENDOR_A_BASE_URL:http://localhost:${server.port}}
+    stock-path: ${VENDOR_A_STOCK_PATH:/mock/vendor-a/stock}
+    mock-enabled: ${VENDOR_A_MOCK_ENABLED:true}
+    retry:
+      max-attempts: ${VENDOR_A_RETRY_MAX_ATTEMPTS:3}
+      delay-ms: ${VENDOR_A_RETRY_DELAY_MS:500}
+  vendor-b:
+    file-path: ${VENDOR_B_FILE_PATH:/tmp/vendor-b/stock.csv}
 
 springdoc:
   swagger-ui:
