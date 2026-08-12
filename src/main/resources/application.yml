@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: stocksync
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
