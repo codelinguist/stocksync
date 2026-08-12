@@ -16,10 +16,9 @@ public class VendorARestClient implements StockSource {
     private final RestClient restClient;
     private final String stockPath;
 
-    public VendorARestClient(RestClient.Builder builder,
-                             @Value("${vendors.vendor-a.base-url}") String baseUrl,
+    public VendorARestClient(@Value("${vendors.vendor-a.base-url}") String baseUrl,
                              @Value("${vendors.vendor-a.stock-path}") String stockPath) {
-        this.restClient = builder.baseUrl(baseUrl).build();
+        this.restClient = RestClient.builder().baseUrl(baseUrl).build();
         this.stockPath = stockPath;
     }
 
