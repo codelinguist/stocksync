@@ -1,29 +1,38 @@
-package org.dropship.stocksync.domain;
+package org.dropship.stocksync.domain.entity;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.Instant;
 
+@Entity
+@Table(name = "products", uniqueConstraints =
+        @UniqueConstraint(name = "uk_product_vendor_sku", columnNames = {"vendor_id", "sku"}))
 public class Product {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String sku;
 
+    @Column(nullable = false)
     private String name;
 
+    @Column(name = "stock_quantity", nullable = false)
     private int stockQuantity;
 
-    private String vendor;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "vendor_id", nullable = false)
+    private Vendor vendor;
 
+    @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
     protected Product() {
     }
 
-    public Product(String sku, String name, int stockQuantity, String vendor, Instant updatedAt) {
+    public Product(String sku, String name, int stockQuantity, Vendor vendor, Instant updatedAt) {
         this.sku = sku;
         this.name = name;
         this.stockQuantity = stockQuantity;
@@ -53,7 +62,7 @@ public class Product {
         return stockQuantity;
     }
 
-    public String getVendor() {
+    public Vendor getVendor() {
         return vendor;
     }
 
@@ -61,4 +70,3 @@ public class Product {
         return updatedAt;
     }
 }
-
