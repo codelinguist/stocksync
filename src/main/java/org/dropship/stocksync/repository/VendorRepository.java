@@ -1,6 +1,6 @@
-package org.dropship.stocksync.domain.repository;
+package org.dropship.stocksync.repository;
 
-import org.dropship.stocksync.domain.entity.Vendor;
+import org.dropship.stocksync.domain.Vendor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

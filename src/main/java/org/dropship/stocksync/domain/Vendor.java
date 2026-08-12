@@ -1,4 +1,4 @@
-package org.dropship.stocksync.domain.entity;
+package org.dropship.stocksync.domain;
 
 import jakarta.persistence.*;
 
