@@ -1,17 +1,20 @@
-# Stock Sync Service
+# Stock Sync
 
-A Spring Boot microservice that periodically imports stock from a REST vendor and a CSV vendor, stores the latest inventory in H2, records positive-to-zero stock transitions, and exposes the normalized product catalog.
+A small stock operations application with a Spring Boot API in `backend/` and a Next.js frontend in `frontend/`. The backend periodically imports stock from a REST vendor and a CSV vendor, stores the latest inventory in H2, records positive-to-zero stock transitions, and exposes the normalized product catalog.
 
 ## Requirements
 
 - Java 17 or newer
 - Maven 3.9+
+- Node.js 20.9 or newer
+- npm
 
-## Run locally
+## Run the backend locally
 
 Prepare the simulated Vendor B drop and start the application:
 
 ```bash
+cd backend
 mkdir -p /tmp/vendor-b
 cp sample-data/vendor-b/stock.csv /tmp/vendor-b/stock.csv
 mvn spring-boot:run
@@ -24,14 +27,30 @@ The first sync runs after five seconds and subsequent syncs run 60 seconds after
 - OpenAPI JSON: `http://localhost:8080/v3/api-docs`
 - Simulated Vendor A response: `http://localhost:8080/mock/vendor-a/stock`
 
-Run tests with `mvn test`.
+Run backend tests from `backend/` with `mvn test`.
+
+## Run the frontend
+
+The frontend is a Next.js application in `frontend/`. It currently provides the Stock Operations application shell and state-management foundation; inventory dashboard functionality will be added separately.
+
+```bash
+cd frontend
+cp .env.example .env.local
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`. By default, the frontend is configured to use the backend at `http://localhost:8080` through `NEXT_PUBLIC_API_BASE_URL`.
 
 ## Run with Docker
 
+From the repository root:
+
 ```bash
-docker build -t stock-sync-service .
+docker build -t stock-sync-service backend
 docker run --rm -p 8080:8080 stock-sync-service
 ```
+
 ## Vendor simulation
 
 Vendor A is a real HTTP integration implemented with Spring `RestClient`. For a self-contained exercise, the service also exposes a small mock controller at `/mock/vendor-a/stock`, enabled by default. Point it at a real or standalone mock server with `VENDOR_A_BASE_URL` and disable the bundled endpoint with `VENDOR_A_MOCK_ENABLED=false`. Transient REST client failures are retried three times with a configurable backoff.
@@ -78,7 +97,9 @@ This key design can also reduce the number of rows and pages touched by tenant-s
 
 ## Package structure
 
-- `vendor`: source adapters and normalized vendor DTO
-- `service`: synchronization orchestration and inventory business rules
-- `repository` / `domain`: normalized relational persistence for vendors, products, and events
-- `web`: products API, mock Vendor A endpoint, and API error mapping
+- `backend/src/main/java/.../vendor`: source adapters and normalized vendor DTO
+- `backend/src/main/java/.../service`: synchronization orchestration and inventory business rules
+- `backend/src/main/java/.../repository` and `domain`: normalized relational persistence for vendors, products, and events
+- `backend/src/main/java/.../web`: products API, mock Vendor A endpoint, and API error mapping
+- `frontend/src/app`: Next.js App Router shell
+- `frontend/src/lib`: Redux store and RTK Query base configuration
