@@ -31,7 +31,7 @@ Run backend tests from `backend/` with `mvn test`.
 
 ## Run the frontend
 
-The frontend is a Next.js application in `frontend/`. It currently provides the Stock Operations application shell and state-management foundation; inventory dashboard functionality will be added separately.
+The frontend is a Next.js application in `frontend/`. Its Inventory Dashboard summarizes current availability and lists the normalized products returned by the backend.
 
 ```bash
 cd frontend
@@ -70,6 +70,7 @@ Override the path with `VENDOR_B_FILE_PATH`. Apache Commons CSV is used so quote
 | --- | --- | --- |
 | `STOCK_SYNC_INITIAL_DELAY_MS` | `5000` | Delay before the first sync |
 | `STOCK_SYNC_FIXED_DELAY_MS` | `60000` | Delay between completed syncs |
+| `FRONTEND_ORIGIN` | `http://localhost:3000` | Browser origin allowed to call `GET /products` |
 | `VENDOR_A_BASE_URL` | `http://localhost:8080` | Vendor A server |
 | `VENDOR_A_STOCK_PATH` | `/mock/vendor-a/stock` | Vendor A stock resource |
 | `VENDOR_A_MOCK_ENABLED` | `true` | Enables the bundled mock endpoint |
