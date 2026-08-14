@@ -11,7 +11,7 @@ type InventoryFilters = {
 export function filterProducts(
   products: Product[],
   { search, vendor, stockStatus }: InventoryFilters,
-) {
+): Product[] {
   const normalizedSearch = search.trim().toLowerCase();
 
   return products.filter((product) => {

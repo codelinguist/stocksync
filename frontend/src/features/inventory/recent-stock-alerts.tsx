@@ -30,13 +30,14 @@ export function RecentStockAlerts() {
   const {
     data: stockEvents,
     isLoading,
+    isFetching,
     isError,
     refetch,
   } = useGetStockEventsQuery();
 
   return (
     <section className="rounded-xl border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-200 px-6 py-4">
+      <div className="border-b border-slate-200 px-4 py-4 sm:px-6">
         <h2 className="text-sm font-semibold text-slate-900">
           Recent Stock Alerts
         </h2>
@@ -48,35 +49,40 @@ export function RecentStockAlerts() {
       {isLoading ? (
         <div
           aria-busy="true"
-          aria-label="Loading recent stock alerts"
           className="divide-y divide-slate-100"
+          role="status"
         >
+          <span className="sr-only">Loading recent stock alerts…</span>
           {Array.from({ length: 3 }, (_, index) => (
-            <div className="space-y-2 px-6 py-4" key={index}>
+            <div className="space-y-2 px-4 py-4 sm:px-6" key={index}>
               <div className="h-4 w-48 animate-pulse rounded bg-slate-100" />
               <div className="h-3 w-64 animate-pulse rounded bg-slate-100" />
             </div>
           ))}
         </div>
       ) : isError ? (
-        <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-5" role="alert">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-5 sm:px-6" role="alert">
           <p className="text-sm text-slate-600">Stock alerts could not be loaded.</p>
           <button
-            className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"
+            className="rounded-lg px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900 disabled:cursor-wait disabled:text-slate-400"
+            disabled={isFetching}
             onClick={() => refetch()}
             type="button"
           >
-            Retry
+            {isFetching ? "Retrying…" : "Retry"}
           </button>
         </div>
       ) : !stockEvents?.length ? (
-        <p className="px-6 py-6 text-sm text-slate-500">
-          No recent stock alerts
-        </p>
+        <div className="px-4 py-6 sm:px-6" role="status">
+          <p className="text-sm font-medium text-slate-700">No recent stock alerts</p>
+          <p className="mt-1 text-xs text-slate-500">
+            Positive-to-zero stock transitions will appear here.
+          </p>
+        </div>
       ) : (
         <ul className="divide-y divide-slate-100">
           {stockEvents.slice(0, 5).map((stockEvent) => (
-            <li className="flex gap-3 px-6 py-4" key={stockEvent.id}>
+            <li className="flex gap-3 px-4 py-4 sm:px-6" key={stockEvent.id}>
               <span
                 aria-hidden="true"
                 className="mt-1.5 size-2 shrink-0 rounded-full bg-rose-500"
