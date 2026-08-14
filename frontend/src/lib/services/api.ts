@@ -24,14 +24,28 @@ export interface StockEvent {
 export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: apiBaseUrl }),
+  tagTypes: ["Products", "StockEvents"],
   endpoints: (builder) => ({
     getProducts: builder.query<Product[], void>({
       query: () => "products",
+      providesTags: ["Products"],
     }),
     getStockEvents: builder.query<StockEvent[], void>({
       query: () => "stock-events",
+      providesTags: ["StockEvents"],
+    }),
+    triggerSync: builder.mutation<void, void>({
+      query: () => ({
+        url: "sync",
+        method: "POST",
+      }),
+      invalidatesTags: ["Products", "StockEvents"],
     }),
   }),
 });
 
-export const { useGetProductsQuery, useGetStockEventsQuery } = baseApi;
+export const {
+  useGetProductsQuery,
+  useGetStockEventsQuery,
+  useTriggerSyncMutation,
+} = baseApi;

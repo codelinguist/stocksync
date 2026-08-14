@@ -24,6 +24,7 @@ The first sync runs after five seconds and subsequent syncs run 60 seconds after
 
 - Products: `GET http://localhost:8080/products`
 - Stock events: `GET http://localhost:8080/stock-events`
+- Manual synchronization: `POST http://localhost:8080/sync`
 - Swagger UI: `http://localhost:8080/swagger-ui.html`
 - OpenAPI JSON: `http://localhost:8080/v3/api-docs`
 - Simulated Vendor A response: `http://localhost:8080/mock/vendor-a/stock`
@@ -32,7 +33,7 @@ Run backend tests from `backend/` with `mvn test`.
 
 ## Run the frontend
 
-The frontend is a Next.js application in `frontend/`. Its Inventory Dashboard summarizes current availability and lists the normalized products returned by the backend.
+The frontend is a Next.js application in `frontend/`. Its Inventory Dashboard summarizes current availability, lists normalized products, shows recent stock alerts, and allows an operator to trigger synchronization.
 
 ```bash
 cd frontend
@@ -71,7 +72,7 @@ Override the path with `VENDOR_B_FILE_PATH`. Apache Commons CSV is used so quote
 | --- | --- | --- |
 | `STOCK_SYNC_INITIAL_DELAY_MS` | `5000` | Delay before the first sync |
 | `STOCK_SYNC_FIXED_DELAY_MS` | `60000` | Delay between completed syncs |
-| `FRONTEND_ORIGIN` | `http://localhost:3000` | Browser origin allowed to call the products and stock-events APIs |
+| `FRONTEND_ORIGIN` | `http://localhost:3000` | Browser origin allowed to call the products, stock-events, and synchronization APIs |
 | `VENDOR_A_BASE_URL` | `http://localhost:8080` | Vendor A server |
 | `VENDOR_A_STOCK_PATH` | `/mock/vendor-a/stock` | Vendor A stock resource |
 | `VENDOR_A_MOCK_ENABLED` | `true` | Enables the bundled mock endpoint |
@@ -102,6 +103,6 @@ This key design can also reduce the number of rows and pages touched by tenant-s
 - `backend/src/main/java/.../vendor`: source adapters and normalized vendor DTO
 - `backend/src/main/java/.../service`: synchronization orchestration and inventory business rules
 - `backend/src/main/java/.../repository` and `domain`: normalized relational persistence for vendors, products, and events
-- `backend/src/main/java/.../web`: products and stock-events APIs, mock Vendor A endpoint, and API error mapping
+- `backend/src/main/java/.../web`: products, stock-events, and synchronization APIs, mock Vendor A endpoint, and API error mapping
 - `frontend/src/app`: Next.js App Router shell
 - `frontend/src/lib`: Redux store and RTK Query base configuration
