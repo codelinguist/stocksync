@@ -10,6 +10,7 @@ import {
   filterProducts,
   type StockStatusFilter,
 } from "./inventory-filters";
+import { RecentStockAlerts } from "./recent-stock-alerts";
 
 type SummaryCardProps = {
   label: string;
@@ -304,6 +305,8 @@ export function InventoryDashboard() {
         vendor={vendor}
         vendors={vendorOptions}
       />
+
+      <RecentStockAlerts />
     </div>
   );
 }

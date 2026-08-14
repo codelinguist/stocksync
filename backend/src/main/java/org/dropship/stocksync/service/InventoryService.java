@@ -80,6 +80,14 @@ public class InventoryService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<StockEventResponse> findStockEvents() {
+        return eventRepository.findAllByOrderByEventTimeDesc()
+                .stream()
+                .map(StockEventResponse::from)
+                .toList();
+    }
+
     private String requireText(String value, String field) {
         if (value == null || value.isBlank()) {
             throw new IllegalArgumentException(field + " must not be blank");
