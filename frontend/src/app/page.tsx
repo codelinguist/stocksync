@@ -1,5 +1,5 @@
 import { InventoryDashboard } from "@/features/inventory/inventory-dashboard";
-`import { SyncNowControl } from "@/features/inventory/sync-now-control";
+import { SyncNowControl } from "@/features/inventory/sync-now-control";
 
 export default function Home() {
   return (
