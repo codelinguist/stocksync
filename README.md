@@ -15,6 +15,8 @@ The frontend provides:
 
 The scope is intentionally small: it demonstrates a complete operational workflow without authentication, editing, charts, or a large component framework.
 
+See the [frontend README](frontend/README.md) for its libraries, architectural patterns, state-management decisions, and UI practices.
+
 ## Technology
 
 | Area | Technology |
